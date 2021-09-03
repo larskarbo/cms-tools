@@ -1,6 +1,6 @@
 {
   "name": "@larskarbo/cms-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CMS tools used internally at @larskarbo",
   "author": "larskarbo",
   "license": "MIT",
