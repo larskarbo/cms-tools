@@ -1,4 +1,5 @@
 import React from "react";
+import QuickLink from "./components/QuickLink";
 
 export const NotionText = ({ text }) => {
   if (!text) {
@@ -22,7 +23,7 @@ export const NotionText = ({ text }) => {
         style={color !== "default" ? { color } : {}}
       >
         {text.link ? (
-          <a href={text.link.url}>{text.content}</a>
+          <QuickLink href={text.link.url}>{text.content}</QuickLink>
         ) : (
           text.content.replace("quote:", "").replace("callout:", "")
         )}

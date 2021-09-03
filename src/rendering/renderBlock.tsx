@@ -3,7 +3,6 @@ import { Block } from "@notionhq/client/build/src/api-types";
 import { NotionText } from "./NotionText";
 
 
-
 export const renderBlock = (block: Block) => {
   let  type : any  = block.type;
   const { id } = block;
@@ -21,8 +20,8 @@ export const renderBlock = (block: Block) => {
   switch (type) {
     case "quote":
       return (
-        <blockquote className="relative p-4 text-xl italic border-l-4 bg-neutral-100 text-neutral-600 border-neutral-500 quote">
-          <p className="my-0">
+        <blockquote className="mb-8 relative p-4 text-xl italic border-l-4 bg-neutral-100 text-neutral-600 border-neutral-500 quote">
+          <p className={`my-0`}>
             <NotionText text={value.text} />
           </p>
         </blockquote>
@@ -31,39 +30,33 @@ export const renderBlock = (block: Block) => {
       return (
         <div className="bg-yellow-900 bg-opacity-50 p-8 pl-4 flex  border-yellow-600 border-l-4">
           <div className="mr-4">💡</div>
-          <p className="my-0">
+          <p className={`my-0`}>
             <NotionText text={value.text} />
           </p>
         </div>
       );
     case "paragraph":
       return (
-        <p>
+        <p className={`my-8`}>
           <NotionText text={value.text} />
         </p>
       );
-    case "heading_1":
-      return (
-        <h1>
-          <NotionText text={value.text} />
-        </h1>
-      );
     case "heading_2":
       return (
-        <h2>
+        <h2 className="text-4xl mb-8 mt-20 font-medium leading-tight text-white">
           <NotionText text={value.text} />
         </h2>
       );
     case "heading_3":
       return (
-        <h3>
+        <h3 className="text-2xl mb-8 mt-16 font-bold leading-tight text-white">
           <NotionText text={value.text} />
         </h3>
       );
     case "bulleted_list_item":
     case "numbered_list_item":
       return (
-        <li>
+        <li className="mb-4">
           <NotionText text={value.text} />
         </li>
       );
