@@ -8,14 +8,17 @@ const getImageMetaInfo = async (url) => {
   return await axios({
     method: "GET",
     url: "https://fast-image-probe-metainfo.p.rapidapi.com/img-metainfo",
+    // url: "https://img-metainfo.larskarbo.no/img-metainfo",
     params: { url },
     headers: {
       'x-rapidapi-host': 'fast-image-probe-metainfo.p.rapidapi.com',
-      'x-rapidapi-key': forceEnv("RAPID_API_KEY")
+      'x-rapidapi-key': forceEnv("RAPID_API_KEY"),
+      // 'fav-animal': "horse"
     }
   }).then((a) => a.data)
   .catch(e => {
-    throw new Error("Image Meta Info retrieval failed: " + getErrorMessage(e));
+    console.log("Image Meta Info retrieval failed: " + getErrorMessage(e));
+    return null
   })
 };
 
