@@ -1,9 +1,17 @@
 import React from "react";
-import { Block } from "@notionhq/client/build/src/api-types";
+import { Block, ImageBlock } from "@notionhq/client/build/src/api-types";
 import { NotionText } from "./NotionText";
 
+import Image from "next/image";
 
-export const renderBlock = (block: Block) => {
+type ImgBlockWithMetaData = ImageBlock & {
+  imgMetaInfo: {
+    width: number,
+    height: number,
+  }
+}
+
+export const renderBlock = (block: Block | ImgBlockWithMetaData) => {
   let  type : any  = block.type;
   const { id } = block;
   const value = block[type];
@@ -82,11 +90,17 @@ export const renderBlock = (block: Block) => {
     case "child_page":
       return <p>{value.title}</p>;
     case "image":
+      const imgBlock = block as ImgBlockWithMetaData;
       const src = value.type === "external" ? value.external.url : value.file.url;
       const caption = value.caption ? value.caption?.[0]?.plain_text : "";
+      const aspectRatio = imgBlock.imgMetaInfo.width / imgBlock.imgMetaInfo.height
+      const maxWidth = 830
+      const width = imgBlock.imgMetaInfo.width < 830 ? imgBlock.imgMetaInfo.width : maxWidth
+      const height = width / aspectRatio
       return (
         <figure>
-          <img src={src} alt={caption} />
+          {/* @ts-ignore */}
+          <Image src={src} alt={caption} width={width} height={height} />
           {caption && <figcaption>{caption}</figcaption>}
         </figure>
       );

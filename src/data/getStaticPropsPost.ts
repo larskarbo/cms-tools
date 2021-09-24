@@ -1,4 +1,23 @@
+import axios from "axios";
 import { getBlocks, getIdFromSlug, getPage } from "./notion";
+import forceEnv from "force-env";
+import { getErrorMessage } from "get-error-message";
+
+
+const getImageMetaInfo = async (url) => {
+  return await axios({
+    method: "GET",
+    url: "https://fast-image-probe-metainfo.p.rapidapi.com/img-metainfo",
+    params: { url },
+    headers: {
+      'x-rapidapi-host': 'fast-image-probe-metainfo.p.rapidapi.com',
+      'x-rapidapi-key': forceEnv("RAPID_API_KEY")
+    }
+  }).then((a) => a.data)
+  .catch(e => {
+    throw new Error("Image Meta Info retrieval failed: " + getErrorMessage(e));
+  })
+};
 
 export const getStaticPropsPost = async (context) => {
   const { post } = context.params;
@@ -23,7 +42,23 @@ export const getStaticPropsPost = async (context) => {
         };
       })
   );
-  const blocksWithChildren = blocks.map((block) => {
+
+  const blocksWithImages = await Promise.all(
+    blocks.map(async (block) => {
+      if (block.type === "image") {
+        const value = block[block.type];
+        const src =
+          value.type === "external" ? value.external.url : value.file.url;
+        return {
+          ...block,
+          imgMetaInfo: await getImageMetaInfo(src),
+        };
+      }
+      return block;
+    })
+  );
+
+  const blocksWithChildren = blocksWithImages.map((block) => {
     // Add child blocks if the block should contain children but none exists
     if (block.has_children && !block[block.type].children) {
       block[block.type]["children"] = childBlocks.find(

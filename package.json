@@ -16,11 +16,13 @@
     "watch": "microbundle --watch --jsx React.createElement"
   },
   "peerDependencies": {
+    "axios": "^0.21.4",
     "next": "^11.1.0",
     "react": "^17.0.2"
   },
   "devDependencies": {
     "@types/react": "^17.0.19",
+    "axios": "^0.21.4",
     "microbundle": "^0.13.3",
     "next": "^11.1.0",
     "next-quick-seo": "^1.0.4",
@@ -32,6 +34,7 @@
   ],
   "dependencies": {
     "@notionhq/client": "^0.3.1",
-    "force-env": "^1.0.2"
+    "force-env": "^1.0.2",
+    "get-error-message": "^1.0.1"
   }
 }
