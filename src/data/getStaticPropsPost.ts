@@ -35,7 +35,7 @@ export const getStaticPropsPost = async (context) => {
 
   // Retrieve block children for nested blocks (one level deep), for example toggle blocks
   // https://developers.notion.com/docs/working-with-page-content#reading-nested-blocks
-  const childBlocks = await pSeries(
+  const childBlocks = await Promise.all(
     blocks
       .filter((block) => block.has_children)
       .map(async (block) => {
