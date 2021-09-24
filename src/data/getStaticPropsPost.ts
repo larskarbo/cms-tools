@@ -7,13 +7,13 @@ import { getErrorMessage } from "get-error-message";
 const getImageMetaInfo = async (url) => {
   return await axios({
     method: "GET",
-    url: "https://fast-image-probe-metainfo.p.rapidapi.com/img-metainfo",
-    // url: "https://img-metainfo.larskarbo.no/img-metainfo",
+    // url: "https://fast-image-probe-metainfo.p.rapidapi.com/img-metainfo",
+    url: "https://img-metainfo.larskarbo.no/img-metainfo",
     params: { url },
     headers: {
       'x-rapidapi-host': 'fast-image-probe-metainfo.p.rapidapi.com',
       'x-rapidapi-key': forceEnv("RAPID_API_KEY"),
-      // 'fav-animal': "horse"
+      'fav-animal': "horse"
     }
   }).then((a) => a.data)
   .catch(e => {
@@ -35,7 +35,7 @@ export const getStaticPropsPost = async (context) => {
 
   // Retrieve block children for nested blocks (one level deep), for example toggle blocks
   // https://developers.notion.com/docs/working-with-page-content#reading-nested-blocks
-  const childBlocks = await Promise.all(
+  const childBlocks = await pSeries(
     blocks
       .filter((block) => block.has_children)
       .map(async (block) => {
